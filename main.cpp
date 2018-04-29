@@ -73,7 +73,7 @@ float			yrot;			// Y Rotation ( NEW )
 float			zrot;			// Z Rotation ( NEW )
 
 static GLfloat ang = 0.0, ang2=0.0;
-int  nRots = 0;
+int  nRots = 0, start = 0;
 float tunel_pos[12] ={0,5,10,15,20,25,30,35,40,45,50,55} ,tunel1=0 ,rot = 0;
 
 // LoadGLTextures ----------------------------------------------------------
@@ -91,8 +91,8 @@ void LoadTexture(void)
 	}
 
 
-	//LoadBMP("Logo.bmp", TextureImage);
-	LoadBMP("C:\\Users\\pedro\\Desktop\\5� Ano\\2sem\\CG\\game3D\\bin\\Debug\\tex1.bmp", TextureImage);
+	LoadBMP("1.bmp", TextureImage);
+	//LoadBMP("C:\\Users\\pedro\\Desktop\\5� Ano\\2sem\\CG\\game3D\\bin\\Debug\\tex1.bmp", TextureImage);
 
 	glGenTextures(1, &texture_id[0]);
 
@@ -178,42 +178,49 @@ int LoadBMP(char *filename, Image *image) {
 }
 
 void Piramide(int z)
-{
-	
+{	glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture_id[0]);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
+		
 	glBegin(GL_TRIANGLES);                         
 
 		//frente
 		glNormal3f(0.6,0.4,-1.0);    
+          	glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0, 0); glVertex3f(-12.0, -sqrt(507),z + 0.0);
             glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(0.0,0.0,z + 0.0);
-	    glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(-12.0, -sqrt(507),z + 0.0);
-	    glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(12.0, -sqrt(507),z + 0.0);
+            glTexCoord2f(1, 0); glVertex3f(12.0, -sqrt(507),z + 0.0);
+            glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0.5, 1); glVertex3f(0.0,0.0,z + 0.0);
+
+
 		//direita
 		glNormal3f(0.4,0.6,0.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(0.0,0.0,z + 0.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(12.0, -sqrt(507),z + 0.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(12.0, -sqrt(507), z +5.0);
+             //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0, 0); glVertex3f(12.0, -sqrt(507),z + 0.0);
+            //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(1, 0); glVertex3f(12.0, -sqrt(507), z +5.0);
+            //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0.5, 1); glVertex3f(0.0,0.0,z + 0.0);
+
 		//atras
 		glNormal3f(-0.6,-0.4,1.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(0.0,0.0,z + 0.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(-12.0, -sqrt(507),z + 5.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(12.0, -sqrt(507),z + 5.0);
+           //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0, 0); glVertex3f(-12.0, -sqrt(507),z + 5.0);
+            //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(1, 0); glVertex3f(12.0, -sqrt(507),z + 5.0);
+            //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0.5, 1); glVertex3f(0.0,0.0,z + 0.0);
+
+
 		//esquerda
 		glNormal3f(-0.4,-0.6,0.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(0.0,0.0,z + 0.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(-12.0, -sqrt(507),z + 5.0);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex3f(-12.0, -sqrt(507),z + 0.0);
+             //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0, 0); glVertex3f(-12.0, -sqrt(507),z + 5.0);
+            //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(1, 0); glVertex3f(-12.0, -sqrt(507),z + 0.0);
+            //glColor3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(0.5, 1); glVertex3f(0.0,0.0,z + 0.0);
 
         glEnd();
 	
@@ -306,8 +313,10 @@ void Tunel(int z , int init)
 
 void init(void)
 {
+  
+	//luz
    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-   GLfloat mat_shininess[] = { 50.0 };
+   GLfloat mat_shininess[] = { 70.0 };
    GLfloat light0_diffuse[] = {1.0, 1.0, 1.0, 0.0};	
    GLfloat light0_position[] = {0.0, 0.0, -10.0, 100.0};
 
@@ -317,10 +326,11 @@ void init(void)
    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
    glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-
+      
    glEnable(GL_LIGHTING);
    glEnable(GL_LIGHT0);
-   glColorMaterial(GL_FRONT, GL_DIFFUSE);
+  
+ glColorMaterial(GL_FRONT, GL_DIFFUSE);
    glEnable(GL_COLOR_MATERIAL);
    glEnable(GL_NORMALIZE);
    glEnable( GL_DEPTH_TEST );
@@ -331,7 +341,8 @@ void init(void)
 void display(void)
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-   	
+   
+   
 	glPushMatrix();
 	
 	glRotatef(rot , 0 , 0 , 1);
@@ -348,6 +359,8 @@ void display(void)
 	Tunel(tunel_pos[10] , 0.0f);
 	Tunel(tunel_pos[11] ,60.0f);
 
+//	glRotatef(rot , 0 , 1 , 0);
+// 	Piramide(0);
   	glPopMatrix();
 	
    glutSwapBuffers();
@@ -405,7 +418,9 @@ void Keyboard(unsigned char key,int x,int y)
 	switch(key){
 		case 'a':	nRots=3; Timer(1); break;//y
 		case 'd':	nRots=3; Timer(2); break;
-		case 27:        exit(0);
+		case 27 :       exit(0); break;
+		case 'w':	Timer(0); break;
+		case 't':	LoadTexture(); break;
 	}
 
 }
@@ -425,7 +440,7 @@ int main(int argc, char** argv)
    
    glutReshapeFunc(reshape);
    glutKeyboardFunc(Keyboard);
-   Timer(0);
+ //  Timer(0);
    glutMainLoop();
    return 0;
 }
